@@ -1,0 +1,16 @@
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/BillServerApplication.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/SwaggerConfig.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/config/AppConfig.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/controller/TransactionController.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/controller/UserController.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/model/Message.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/model/Transaction.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/model/User.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/model/UsingType.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/repository/TransactionRepository.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/repository/UserRepository.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/service/OpenAIService.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/service/TransactionService.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/service/TransactionServiceImpl.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/service/UserService.java
+/Users/yanran/Desktop/*chuangye/AIHackathon/billServer/src/main/java/com/powerpuff/billServer/service/UserServiceImpl.java

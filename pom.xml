@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Parent pom from Spring Boot -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.4</version>
+		<relativePath/>
+	</parent>
+
+	<groupId>com.powerpuff</groupId>
+	<artifactId>billServer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>billServer</name>
+	<description>billBot project for Spring Boot</description>
+
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+
+	<!-- Dependencies -->
+	<dependencies>
+		<!-- Spring Boot Starter for JPA -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Spring Boot Web for creating REST APIs -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- MySQL Connector -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.30</version>
+		</dependency>
+
+		<!-- Spring Boot Testing Starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion><!-- Solve conflict with org.json -->
+					<groupId>com.vaadin.external.google</groupId>
+					<artifactId>android-json</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- SpringDoc for OpenAPI integration -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+		<!-- HTTPClient5 dependency -->
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>5.2.1</version>
+		</dependency>
+
+		<!-- JSON dependency -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Build Configuration -->
+	<build>
+		<plugins>
+			<!-- Spring Boot Maven Plugin to create executable JAR -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- Specify the main class -->
+					<mainClass>com.powerpuff.billServer.BillServerApplication</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
