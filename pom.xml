@@ -3,7 +3,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Parent pom from Spring Boot -->
+	<!-- Parent POM from Spring Boot -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -29,10 +29,16 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!-- Spring Boot Web for creating REST APIs -->
+		<!-- Spring Boot Starter for Web MVC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Spring Boot Starter for WebFlux (Reactive Web) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<!-- MySQL Connector -->
@@ -48,7 +54,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<exclusions>
-				<exclusion><!-- Solve conflict with org.json -->
+				<exclusion>
 					<groupId>com.vaadin.external.google</groupId>
 					<artifactId>android-json</artifactId>
 				</exclusion>
@@ -62,34 +68,46 @@
 			<version>2.1.0</version>
 		</dependency>
 
-		<!-- HTTPClient5 dependency -->
+		<!-- HTTP Client 5 -->
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
 			<version>5.2.1</version>
 		</dependency>
 
-		<!-- JSON dependency -->
+		<!-- JSON processing library -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20210307</version>
+		</dependency>
+
+		<!-- Google Cloud Dialogflow -->
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-dialogflow</artifactId>
+			<version>4.59.0</version>
+		</dependency>
+
+		<!-- Google Authentication -->
+		<dependency>
+			<groupId>com.google.auth</groupId>
+			<artifactId>google-auth-library-oauth2-http</artifactId>
+			<version>1.29.0</version>
 		</dependency>
 	</dependencies>
 
 	<!-- Build Configuration -->
 	<build>
 		<plugins>
-			<!-- Spring Boot Maven Plugin to create executable JAR -->
+			<!-- Spring Boot Maven Plugin for Executable JAR -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<!-- Specify the main class -->
 					<mainClass>com.powerpuff.billServer.BillServerApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

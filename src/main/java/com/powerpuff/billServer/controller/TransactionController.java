@@ -1,6 +1,7 @@
 package com.powerpuff.billServer.controller;
 
 import com.powerpuff.billServer.model.Transaction;
+import com.powerpuff.billServer.service.GeminiChatService;
 import com.powerpuff.billServer.service.TransactionService;
 import com.powerpuff.billServer.service.OpenAIService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -26,6 +28,14 @@ public class TransactionController {
     @Autowired
     private OpenAIService openAIService;
 
+    // Gemini Chat Service
+    private final GeminiChatService geminiChatService;
+
+    @Autowired
+    public TransactionController(GeminiChatService geminiChatService) {
+        this.geminiChatService = geminiChatService;
+    }
+
     // 手动添加账单
     @PostMapping("/save")
     public String add(@RequestBody Transaction transaction){
@@ -33,11 +43,22 @@ public class TransactionController {
         return "New transaction is added";
     }
 
+    // Add with Gemini (using the modified GeminiChatService)
+    @PostMapping("/addWithGemini")
+    public Mono<ResponseEntity<String>> addWithGemini(@Parameter(description = "User's message for AI processing",
+            schema = @Schema(defaultValue = "Bought groceries at supersotre for $72.50 on 08/15/2024"))
+                                                      @RequestBody String userMessage) {
+        return geminiChatService.getAiResponse(userMessage)
+                .map(response -> ResponseEntity.ok(response)) // Returns the response wrapped in an HTTP 200 status
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Error processing request: " + e.getMessage()))); // In case of error, return an HTTP 500 status
+    }
+
     // AI 帮助生成账单
     @PostMapping("/addWithAI")
-    public ResponseEntity<String> addWithAI( @Parameter(description = "User's message for AI processing",
+    public ResponseEntity<String> addWithAI(@Parameter(description = "User's message for AI processing",
             schema = @Schema(defaultValue = "Bought groceries at supersotre for $72.50 on 08/15/2024"))
-                                                 @RequestBody String userMessage) {
+                                            @RequestBody String userMessage) {
         try {
             if (userMessage == null || userMessage.trim().isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Message cannot be empty");
@@ -59,7 +80,6 @@ public class TransactionController {
         }
     }
 
-
     // Upload an image
     @PostMapping(value = "/addWithAIImg", consumes = "multipart/form-data")
     @Operation(summary = "Upload a bill image", description = "Upload a bill image to the server.")
@@ -70,39 +90,20 @@ public class TransactionController {
             // Call the AI service to process the image
             JSONObject aiResponse = openAIService.processImage(image);
 
-            // TODO Check if the AI response indicates it's a valid transaction
-//            if (!aiResponse.has("transaction") || aiResponse.getString("transaction").isEmpty()) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The uploaded image is not a valid transaction.");
-//            }
-
             // Parse the AI response and create a transaction
             Transaction transaction = openAIService.parseAndSaveTransaction(aiResponse);
-
-            // Store the receipt image path in the transaction
-            //TODO setReceiptImage
-//            String imagePath = openAIService.convertFileToBase64(image);
-//            transaction.setReceiptImage(imagePath);
 
             // Save the transaction to the database
             transactionService.saveTransaction(transaction);
 
             // Return the formatted JSON response with indentation
             return ResponseEntity.ok(aiResponse.toString(4));  // 4 spaces for indentation
-//            return ResponseEntity.ok("Bill processed and transaction saved successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing the bill: " + e.getMessage());
         }
     }
 
     @GetMapping("/getAll")
-//    public List<Transaction> getAllTransaction(
-//            @RequestParam(value = "sortOrder", required = false) String sortOrder){
-//        return transactionService.getAllTransaction(sortOrder);
-//    }
-
-
-
-//    /transactions?sortOrder=asc&category=Groceries&transactionType=outcome
     public ResponseEntity<List<Transaction>> getAllTransactions(
             @Parameter(description = "Sort order (asc or desc). If not provided, defaulting to descending order.")
             @RequestParam(required = false) String sortOrder,
@@ -117,8 +118,6 @@ public class TransactionController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
         transactionService.deleteTransaction(id);
-        return "Transaction with ID " + id + " is logically delete (using_type set to 3)";
-
+        return "Transaction with ID " + id + " is logically deleted (using_type set to 3)";
     }
-
 }
